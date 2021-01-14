@@ -37,8 +37,8 @@ public class Main {
             // Verify existence of log file?
             Path logPath;
             logPath = Paths.get(args[2]);
-            if (!Files.exists(logPath) || args[2].equals("STDIN")) {
-                System.out.println("Log file does not exist");
+            if (!Files.exists(logPath) && !args[2].equals("STDIN")) {
+                System.out.println("log file " + args[2] + " does not exist");
                 java.lang.System.exit(1);
             }
 

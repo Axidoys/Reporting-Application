@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Scanner;
 
 public class Index {
 
@@ -66,17 +67,8 @@ public class Index {
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(logPath))) {
             String line = "";
             do {
-                if(line.startsWith("INFO: send message:")){//it is a message
-                    line = line.substring(19);
 
-                    EventMachine em = new EventMachine(line);
-
-                    //index.addEvent(em);
-
-                    System.out.println(em);
-                }else{
-                    //TODO maybe catch errors from server communication ?
-                }
+                processLine(line);
 
                 line = bufferedReader.readLine(); //for next read if not null
             } while(line != null);
@@ -91,8 +83,30 @@ public class Index {
     }
 
 
+    @SuppressWarnings("InfiniteLoopStatement")
     public void logStdRead(){
+        Scanner scanner = new Scanner(System.in);
+        while(true) {
+            String myString = scanner.nextLine();
 
+            processLine(myString);
+        }
+        //scanner.close();
+    }
+
+
+    private void processLine(String line){
+        if(line.startsWith("INFO: send message:")){//it is a message
+            line = line.substring(19);
+
+            EventMachine em = new EventMachine(line);
+
+            //index.addEvent(em);
+
+            System.out.println(em);
+        }else{
+            //TODO maybe catch errors from server communication ?
+        }
     }
 
 

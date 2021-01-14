@@ -17,7 +17,11 @@ Once the server is listening to `61616`
 
 ### Main program
 
-You can use this program with ...
+You can use this program with these arguments :
+.. : launch CLI program
+.. : launch website
+myProgram index <Workspace> : reindex files and close, should not be used
+myProgram index <Workspace> <stdin|logfile> : reindex and process stream, stdin or the text file
 
 
 

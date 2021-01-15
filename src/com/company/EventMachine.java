@@ -43,8 +43,17 @@ public class EventMachine {
     }
 
     public String toString(){
-        return "machineID{" + machineID + "} machineType{" + machineType + "} errorType{" + errorType + "}"
-                + " date{" + ISO8601.format(date.getTime()) + "}";
+        return "machineID{" + machineID + "} machineType{" + machineType + "} errorType{" + errorType
+                + "} date{" + ISO8601.format(date.getTime()) + "}";
+    }
+
+    public String serialize(){ //return Json
+        return "{"
+                +"\"machineID\":\"" + machineID + "\""
+                + "},\"machineType\":\"" + machineType + "\""
+                + "},\"errorType\":\"" + errorType + "\""
+                + "},\"date\":\"" + ISO8601.format(date.getTime()) + "\""
+                + "}";
     }
 
 }

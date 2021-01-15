@@ -15,6 +15,13 @@ public class Main {
             if (args[0].equals("index")) {
                 indexing(args);
             }
+            else if (args[0].equals("listWS")) {
+                listWS(args);
+            }else if (args[0].equals("data")) {
+                listWS(args);
+            }else {
+                System.out.println("Wrong argument, use ...TODO LIST ARGUMENT");
+            }
         }else{
             System.out.println("No argument");
         }
@@ -22,7 +29,7 @@ public class Main {
     }
 
     public static void indexing(String[] args) {
-        //args should contain : Workspace path ; Raw log file (which can be realtime input) //TODO realtime input
+        //args should contain : Workspace path ; Raw log file (which can be realtime input)
         if(args.length==3) {
 
             // Verify existence of workspace
@@ -43,18 +50,42 @@ public class Main {
             }
 
             //Instantiate indexing
-            Index index = new Index(args[1]);
+            Archive archive = new Archive(args[1]);
 
             //Index it
             if(args[2].equals("STDIN")){
-                index.logStdRead();
+                archive.logStdRead();
             }
             else{
-                index.logFileRead(args[2]);
+                archive.logFileRead(args[2]);
             }
         }
         else {
             System.out.println("index <Workspace path> <Log file>");
+        }
+
+    }
+
+    public static void listWS(String[] args) {
+        if(args.length==2) {
+
+            // Verify existence of workspace
+            Path wsPath;
+            wsPath = Paths.get(args[1]); //TODO check syntax try and catch
+
+            if (!Files.isDirectory(wsPath)) {
+                System.out.println("Workspace directory does not exist");
+                java.lang.System.exit(1);
+            }
+
+            //Instantiate indexing
+            Index index = new Index(args[1]);
+
+            System.out.println("Listing directory...");
+            index.listArchivedFiles();
+        }
+        else {
+            System.out.println("testWS <Workspace path>");
         }
 
     }

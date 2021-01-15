@@ -28,29 +28,31 @@ public class Index {
             for(File file : files){
                 String name = file.getName();
                 //SEARCH FOR ALL the files that are yyyy-mm-dd.txt
-                if(name.length()!=6) { // "yyyy-mm-dd.txt" is 14-length
-                    if(name.toLowerCase().endsWith(".txt")) {
-                        Calendar date = Calendar.getInstance();
-                        Date d;
-                        try {
-                            d = ISO8601.parse(name);
+                if(!file.isDirectory()) {
+                    if (name.length() != 6) { // "yyyy-mm-dd.txt" is 14-length
+                        if (name.toLowerCase().endsWith(".txt")) {
+                            Calendar date = Calendar.getInstance();
+                            Date d;
+                            try {
+                                d = ISO8601.parse(name);
 
-                            if(d!=null) {
-                                date.setTime(d);
-                                int daysBetween = (int) ChronoUnit.DAYS.between(date.toInstant(), today.toInstant());
-                                if (daysBetween < 90) {
-                                    //save it to the array daily
-                                    dailyFiles[daysBetween] = file;
-                                }else{
-                                    //if it is too old, remove it
-                                    if(!file.delete()){
-                                        System.out.println("Warning, file " + name + " cannot be delete");
+                                if (d != null) {
+                                    date.setTime(d);
+                                    int daysBetween = (int) ChronoUnit.DAYS.between(date.toInstant(), today.toInstant());
+                                    if (daysBetween < 90) {
+                                        //save it to the array daily
+                                        dailyFiles[daysBetween] = file;
+                                    } else {
+                                        //if it is too old, remove it
+                                        if (!file.delete()) {
+                                            System.out.println("Warning, file " + name + " cannot be delete");
+                                        }
                                     }
                                 }
-                            }
 
-                        } catch (ParseException e) {
-                            //not a date
+                            } catch (ParseException e) {
+                                //not a date
+                            }
                         }
                     }
                 }

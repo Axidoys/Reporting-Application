@@ -48,7 +48,9 @@ public class Archive extends Index {
 
             bufferedReader.close();
             close();
-            new File(logPath).delete();
+            if(! new File(logPath).delete()){
+                System.out.println("CRITICAL ERROR ! Please delete the log file manually");
+            }
 
         } catch (IOException e) {
             System.out.println("Error during the read of the log file");
@@ -93,7 +95,7 @@ public class Archive extends Index {
     private void recordEvent(EventMachine em) throws Exception {
         //verify that all the fields of em are filled
         //get em index (by 90 days)
-        int index = (int) ChronoUnit.DAYS.between(em.date.toInstant(), today.toInstant()) + 1;
+        int index = (int) ChronoUnit.DAYS.between(em.date.toInstant(), today.toInstant());
         if(index>=90){
             return; // too old event
         }

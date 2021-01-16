@@ -41,28 +41,28 @@ public class EventMachine {
         }
     }
 
-    EventMachine(String s, int dateIndex){ //from archives
+    EventMachine(String s, int dateIndex) throws ParseException { //from archives
 
         JSONParser parser = new JSONParser();
 
-        try{
-            JSONObject obj = (JSONObject) parser.parse(s);
+        JSONObject obj = (JSONObject) parser.parse(s);
 
-            machineID = (String) obj.get("machineID");
-            machineType = (String) obj.get("machineType");
-            errorType = (String) obj.get("errorType");
+        machineID = (String) obj.get("machineID");
+        machineType = (String) obj.get("machineType");
+        errorType = (String) obj.get("errorType");
 
-            //TODO set date ? or not?
+        //TODO set date ? or not?
+        date = Calendar.getInstance();
+        date.set(0, Calendar.JANUARY, 0, 0, 0, 0);
 
-        }catch(ParseException pe) {
-            System.out.println("position: " + pe.getPosition());
-            System.out.println(pe);
-        }
     }
 
     public String toString(){
-        return "machineID{" + machineID + "} machineType{" + machineType + "} errorType{" + errorType
-                + "} date{" + ISO8601.format(date.getTime()) + "}";
+        if(date!=null)
+            return "machineID{" + machineID + "} machineType{" + machineType + "} errorType{" + errorType
+                    + "} date{" + ISO8601.format(date.getTime()) + "}";
+        else
+            return "machineID{" + machineID + "} machineType{" + machineType + "} errorType{" + errorType + "}";
     }
 
     public String serialize(){ //return Json

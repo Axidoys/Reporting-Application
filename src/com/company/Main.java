@@ -1,5 +1,6 @@
 package com.company;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,8 +18,10 @@ public class Main {
             }
             else if (args[0].equals("listWS")) {
                 listWS(args);
+            }else if (args[0].equals("test")) {
+                test(args);
             }else if (args[0].equals("data")) {
-                listWS(args);
+                data(args);
             }else {
                 System.out.println("Wrong argument, use ...TODO LIST ARGUMENT");
             }
@@ -83,6 +86,62 @@ public class Main {
 
             System.out.println("Listing directory...");
             index.listArchivedFiles();
+        }
+        else {
+            System.out.println("testWS <Workspace path>");
+        }
+
+    }
+
+    public static void test(String[] args) { //test over DataProcessing class
+        if(args.length==2) {
+
+            // Verify existence of workspace
+            Path wsPath;
+            wsPath = Paths.get(args[1]); //TODO check syntax try and catch
+
+            if (!Files.isDirectory(wsPath)) {
+                System.out.println("Workspace directory does not exist");
+                java.lang.System.exit(1);
+            }
+
+            //Instantiate indexing
+            DataProcessing index = new DataProcessing(args[1]);
+            try {
+                index.listInit();
+
+                System.out.println("-- Listing machines");
+                System.out.println(index.getListMachine());
+
+                System.out.println("-- Listing errors");
+                System.out.println(index.getListError());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        else {
+            System.out.println("test <Workspace path>");
+        }
+
+    }
+
+    public static void data(String[] args) {
+        if(args.length==2) {
+
+            // Verify existence of workspace
+            Path wsPath;
+            wsPath = Paths.get(args[1]); //TODO check syntax try and catch
+
+            if (!Files.isDirectory(wsPath)) {
+                System.out.println("Workspace directory does not exist");
+                java.lang.System.exit(1);
+            }
+
+            //Instantiate indexing
+            DataProcessing index = new DataProcessing(args[1]);
+
+            //DO THINGS
         }
         else {
             System.out.println("testWS <Workspace path>");

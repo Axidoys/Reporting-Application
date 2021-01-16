@@ -2,6 +2,7 @@ package com.company;
 
 import java.io.*;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Scanner;
 
 public class Archive extends Index {
@@ -91,11 +92,26 @@ public class Archive extends Index {
         }
     }
 
+    private int diffDays(Calendar event, Calendar now){
+        //To midnight
+        event.set(Calendar.HOUR_OF_DAY, 0);
+        event.set(Calendar.MINUTE, 0);
+        event.set(Calendar.SECOND, 0);
+        event.set(Calendar.MILLISECOND, 0);
+        //idem
+        now.set(Calendar.HOUR_OF_DAY, 0);
+        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
+        now.set(Calendar.MILLISECOND, 0);
+
+        return (int) ChronoUnit.DAYS.between(event.toInstant(), now.toInstant());
+    }
+
 
     private void recordEvent(EventMachine em) throws Exception {
         //verify that all the fields of em are filled
         //get em index (by 90 days)
-        int index = (int) ChronoUnit.DAYS.between(em.date.toInstant(), today.toInstant());
+        int index = diffDays(em.date, today);
         if(index>=90){
             return; // too old event
         }

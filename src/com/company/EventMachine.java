@@ -16,8 +16,7 @@ public class EventMachine {
     Calendar date;
     String errorType;
 
-    EventMachine(String s){
-
+    EventMachine(String s){ //from server
 
         JSONParser parser = new JSONParser();
 
@@ -42,6 +41,25 @@ public class EventMachine {
         }
     }
 
+    EventMachine(String s, int dateIndex){ //from archives
+
+        JSONParser parser = new JSONParser();
+
+        try{
+            JSONObject obj = (JSONObject) parser.parse(s);
+
+            machineID = (String) obj.get("machineID");
+            machineType = (String) obj.get("machineType");
+            errorType = (String) obj.get("errorType");
+
+            //TODO set date ? or not?
+
+        }catch(ParseException pe) {
+            System.out.println("position: " + pe.getPosition());
+            System.out.println(pe);
+        }
+    }
+
     public String toString(){
         return "machineID{" + machineID + "} machineType{" + machineType + "} errorType{" + errorType
                 + "} date{" + ISO8601.format(date.getTime()) + "}";
@@ -50,9 +68,9 @@ public class EventMachine {
     public String serialize(){ //return Json
         return "{"
                 +"\"machineID\":\"" + machineID + "\""
-                + "},\"machineType\":\"" + machineType + "\""
-                + "},\"errorType\":\"" + errorType + "\""
-                + "},\"date\":\"" + ISO8601.format(date.getTime()) + "\""
+                + ",\"machineType\":\"" + machineType + "\""
+                + ",\"errorType\":\"" + errorType + "\""
+                + ",\"date\":\"" + ISO8601.format(date.getTime()) + "\""
                 + "}";
     }
 

@@ -25,6 +25,34 @@ myProgram index <Workspace> <stdin|logfile> : reindex and process stream, stdin 
 
 
 
+#### Filters chain
 
+Generate a report, interface :
 
+settings presets buttons \[REQ004\] \[REQ005\] \[REQ006\]
+
+* (FT) *Filter Time* : 90days or less (can use a calendar in HTML AND countbox)
+
+* (FM) *Filter Machine*: select (or not /disable/) a machine (should make a list of machine)
+
+* (FpM) *Filter per Machine* : count errors per machine OR globally, like one machine (no sense if only one machine, true in this case)
+
+* (FE) *Filter Error code* : select (or not /disable/) a list of codes (should make a list of error code)
+
+* [(Re)GENERATE]
+
+* (FP) *Precision/Number of table entry* : select (or not /disable/) the number of entry of the table (can be changed after processing), 10  default
+
+* [Export PDF ; CSV]
+
+For example :
+
+* REQ,004:
+FT *; FM NOT; FpM TRUE; FE NOT ; FP 10 ou FT *; FM *; FpM TRUE ; FE NOT ; FP 10
+
+* REQ,005:
+FT *; FM *; FpM TRUE; FE NOT ; FP 10
+
+* REQ,006:
+FT *; FM *; FpM TRUE; FE NOT ; FP NOT
 

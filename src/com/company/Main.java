@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -127,7 +128,7 @@ public class Main {
     }
 
     public static void data(String[] args) {
-        if(args.length==2) {
+        if(args.length==7) {
 
             // Verify existence of workspace
             Path wsPath;
@@ -138,13 +139,76 @@ public class Main {
                 java.lang.System.exit(1);
             }
 
+            //Format of FT
+            if(!args[2].equals("*")){
+                //noinspection ResultOfMethodCallIgnored
+                try {
+                    Integer.parseInt(args[2]);
+                }
+                catch (NumberFormatException e){
+                    System.out.println("Error in argument FT");
+                    java.lang.System.exit(1);
+                }
+            }
+            if(args[2].startsWith("-")){
+                System.out.println("FT MUST be positive or null");
+                java.lang.System.exit(1);
+            }
+
+            //note : FM cannot be misformatted
+
+            //Format of Fpm
+            if(!args[4].equals("true") && !args[4].equals("false")){
+                System.out.println("Error in argument FpM");
+                java.lang.System.exit(1);
+            }
+
+            //note : FE cannot be misformatted
+
+            //Format of FP
+            if(!args[6].equals("*")){
+                //noinspection ResultOfMethodCallIgnored
+                try {
+                    Integer.parseInt(args[6]);
+                }
+                catch (NumberFormatException e){
+                    System.out.println("Error in argument FT");
+                    java.lang.System.exit(1);
+                }
+            }
+            if(args[6].startsWith("-")){
+                System.out.println("FP MUST be positive");
+                java.lang.System.exit(1);
+            }
+
+            //Instantiate DataFilter
+            DataFilter filter = new DataFilter(args[2], args[3], args[4], args[5], args[6]);
+
             //Instantiate indexing
             DataProcessing index = new DataProcessing(args[1]);
 
-            //DO THINGS
+            // processing
+            try {
+                index.GenerateReport(filter);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // show report CLI
+            ArrayList<PairEntry> report = index.getReport(filter, false);
+            System.out.format("%30s    %s\n", "Machine/Error", "Count");
+            System.out.println("--------------------------------------------------");
+            for(int i = 0; i<report.size();i++){
+                System.out.format("%30s    %d\n", report.get(i).getL(), report.get(i).getR());
+            }
         }
         else {
-            System.out.println("testWS <Workspace path>");
+            System.out.println("data <Workspace path> <FT> <FM> <FpM> <FE> <FP>");
+            System.out.println("\tFT : Time filter, days to take in account, >=0, <90, '*' for max");
+            System.out.println("\tFM : Machine filter, list of machines separate with comma, '*' if no filter");
+            System.out.println("\tFpM : Result per machine, true or false");
+            System.out.println("\tFE : Error filter, list of error separate with comma, '*' if no filter");
+            System.out.println("\tFP : Number of table entry, >0, '*' if no limit");
         }
 
     }

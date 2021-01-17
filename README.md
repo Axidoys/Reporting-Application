@@ -18,14 +18,19 @@ Once the server is listening to `61616`
 ### Main program
 
 You can use this program with these arguments :
+
+```
 .. : launch CLI program
-.. : launch website
-myProgram index <Workspace> : reindex files and close, should not be used
+.. : launch website (not yet implemented)
 myProgram index <Workspace> <stdin|logfile> : reindex and process stream, stdin or the text file
+myProgram data <Workspace> <FT> <FM> <FpM> <FE> <FP>
+```
 
+For example : `myProgram data C:\WORKSPACE 50 MACHINE_86,MACHINE_127 true * 15 `
 
+You can see explaination of the filter chain below.
 
-#### Filters chain
+#### Filter chain
 
 Generate a report, interface :
 

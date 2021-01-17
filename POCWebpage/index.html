@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Melexis Report Application</title>
+
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.css">
+    <link rel="stylesheet" href="css/bootstrap-reboot.css">
+
+    <style>
+        *{
+            margin-bottom: 0.5em;
+            margin-top: 0.5em;
+        }
+
+        h4{
+            margin-top: 1em;
+        }
+
+        .img-banner{
+            max-height: 20vh;
+            min-height: 8em;
+        }
+
+        #footer{
+            margin-bottom:0;margin-top:3em;max-height: 2em;background-color: #e9ecef;
+        }
+
+        #footer p{
+            margin-bottom:0;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="jumbotron text-center" style="margin-bottom:0">
+    <img src="Melexis_logo.svg" class="img-fluid float-left img-banner " alt="Melexis Logo"/>
+    <h1>Melexis Report Application</h1>
+    <p>Prioritize curative maintenance and see efficiency of repair</p>
+</div>
+
+
+<div class="container" style="margin-top:30px">
+    <div class="col-sm-8">
+        <h2>Generate report</h2>
+        <h3>Filter settings</h3>
+        <h4>Time filtering</h4>
+        <p>You can choose how many days you want to consider : 1 means only today's data, max is 90</p>
+        <div class="input-group mb-3">
+            <input id="ft" type="number" class="form-control" placeholder="Number of days" aria-label="ft">
+        </div>
+
+
+        <div class="collapse" id="collapseMachine">
+            <h4>Machine filtering</h4>
+            <p>You can choose how many days you want to consider : 1 means only today's data, max is 90</p>
+
+            <select id="fm" class="form-select" aria-label="Default select example">
+                <option selected value="OPEN">Open this select menu</option>
+                <option value="CUSTOM">Custom ...</option>
+                <option value="1">Every machine</option>
+                <option value="2">MACHINE_1</option>
+                <option value="2">MACHINE_2</option>
+                <option value="2">MACHINE_3</option>
+                <option value="2">MACHINE_4</option>
+                <option value="2">MACHINE_5</option>
+            </select>
+
+
+            <div class="collapse" id="collapseMachineCustom">
+                <input id="fm2" type="text" class="form-control" placeholder="MACHINE_1,MACHINE_2" aria-label="fm">
+            </div>
+
+
+
+            <div class="collapse" id="collapsePerMachine">
+                <h4>Per-Machine output</h4>
+                <p>Lorem ipsum</p>
+                <input id="fp" type="checkbox" class="form-control" placeholder="Per Machine" aria-label="fp">
+
+
+                <h4>Errorfiltering</h4>
+                <p>Lorem ipsum</p>
+
+                <select id="fe" class="form-select" aria-label="Default select example">
+                    <option selected value="OPEN">Open this select menu</option>
+                    <option value="CUSTOM">Custom ...</option>
+                    <option value="1">Every errors</option>
+                    <option value="2">ERROR1</option>
+                    <option value="2">ERROR2</option>
+                    <option value="2">ERROR3</option>
+                    <option value="2">ERROR4</option>
+                    <option value="2">ERROR5</option>
+                </select>
+
+
+                <h4>Report size</h4>
+                <p>Choose the number of entries</p>
+                <input id="fpp" type="number" class="form-control" placeholder="Number of entries" aria-label="ft">
+
+                <button id="genReport" type="button" class="btn btn-primary">Generate report</button>
+
+
+
+                <div class="collapse" id="collapseReport">
+                    <button type="button" class="btn btn-success">Export to pdf</button>
+                    <button type="button" class="btn btn-success">Export to csv</button>
+                    <button type="button" class="btn btn-success">Copy link with filter (not a save)</button>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Count</th>
+                            <th scope="col">Machine</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">13</th>
+                            <td>MACHINE_3;PART_STUCK</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">8</th>
+                            <td>MACHINE_23;SINGULATOR_ERROR</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">8</th>
+                            <td>MACHINE_86;PART_STUCK</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>MACHINE_89;SORTER_ERROR</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>MACHINE_127;SINGULATOR_ERROR</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>MACHINE_127;SINGULATOR_ERROR</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+
+
+<div id="footer" class="text-center" style="margin-bottom:0;margin-top:3em;max-height: 2em;background-color: #e9ecef;">
+    <p>Only for internal uses, data here is confidential !</p>
+</div>
+
+
+<script src="js/jquery-3.5.1.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/bootstrap.bundle.js"></script>
+
+<script>
+    document.getElementById("ft").addEventListener('input', (e)=>{
+        $("#collapseMachine").collapse("show");
+    });
+
+    $( "#fm" )
+        .change(function () {
+            if($( this ).val() === "CUSTOM")
+                $("#collapseMachineCustom").collapse("show");
+            else
+                $("#collapseMachineCustom").collapse("hide");
+
+
+            if($( this ).val() !== "OPEN" &&
+                (
+                    $( "#fm" ).val() !== "CUSTOM") ||  $( "#fm2" ).text() !== ""
+                )
+            {
+                $("#collapsePerMachine").collapse("show");
+            }
+            else
+            {
+                $("#collapsePerMachine").collapse("hide");
+            }
+        })
+
+    $( "#fm2" ).change(function () {
+        if($( "#fm2" ).text() !== "")
+        {
+            $("#collapsePerMachine").collapse("show");
+        }
+        else
+        {
+            $("#collapsePerMachine").collapse("hide");
+        }
+    })
+
+    $("#genReport").click(function(){
+        $("#collapseReport").collapse("show");
+    })
+
+</script>
+
+
+</body>
+</html>
